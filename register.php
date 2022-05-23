@@ -70,14 +70,14 @@ if ($error) {
                     <?= isset($error['password']) ? '<div class="invalid-feedback">' . $error['password'] . '</div>' : '' ?>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control <?= isset($error['confirmation_password']) ? 'is-invalid' : '' ?>" id="confirmation_password" name="confirmation_password"
-                           placeholder="Confirmation Password">
+                    <input type="password" class="form-control <?= isset($error['password_confirmation']) ? 'is-invalid' : '' ?>" id="password_confirmation" name="password_confirmation"
+                           placeholder="Password Confirmation">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
-                    <?= isset($error['confirmation_password']) ? '<div class="invalid-feedback">' . $error['password'] . '</div>' : '' ?>
+                    <?= isset($error['password_confirmation']) ? '<div class="invalid-feedback">' . $error['password'] . '</div>' : '' ?>
                 </div>
                 <div class="row">
                     <div class="col-8">

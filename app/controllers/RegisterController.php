@@ -9,14 +9,14 @@ $fullname = htmlspecialchars($_POST['fullname'] ?? null);
 $username = htmlspecialchars($_POST['username'] ?? null);
 $email = htmlspecialchars($_POST['email'] ?? null);
 $password = htmlspecialchars($_POST['password'] ?? null);
-$passwordConfirmation = htmlspecialchars($_POST['confirmation_password'] ?? null);
+$passwordConfirmation = htmlspecialchars($_POST['password_confirmation'] ?? null);
 
 $attributes = [
     'fullname' => $fullname,
     'username' => $username,
     'email' => $email,
     'password' => $password,
-    'confirmation_password' => $passwordConfirmation
+    'password_confirmation' => $passwordConfirmation
 ];
 
 $_SESSION['error'] = null;
@@ -47,11 +47,7 @@ if (isset($_SESSION['error'])) {
 $attributes['role'] = 'student';
 $attributes['status'] = 'ACTIVE';
 
-$user->create($attributes);
+$user->register($attributes);
 $_SESSION['user'] = $user->attempt($attributes['username'], $attributes['password']);
 
 header('Location: ../../index.php');
-
-
-
-

@@ -25,7 +25,7 @@ class User
         return false;
     }
 
-    public function create($attributes): void
+    public function register($attributes): void
     {
         $stmt = $this->connection->prepare(
             "INSERT INTO users (fullname, username, password, email, role, status) 
@@ -63,5 +63,15 @@ class User
         }
 
         return false;
+    }
+
+    public function getAll()
+    {
+        $stmt = $this->connection->prepare("
+                SELECT u.id, u.fullname, u.username, u.email, u.role, s.nis FROM users u
+                LEFT JOIN students s on u.students_id = s.id");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

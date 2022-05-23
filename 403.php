@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="assets/backend/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="assets/backend/dist/css/adminlte.min.css">
-    <title>404 Not Found</title>
+    <title>403 Forbidden</title>
 </head>
 <body style="background-image: url('/assets/error.jpg'); background-position: center; background-size: cover;">
 <div class="container">
     <div class="vh-100 d-flex justify-content-between align-items-center">
         <div>
             <h1 style="font-size: 10rem !important; font-weight: 700">Oops!</h1>
-            <p class="fw-bolder text-danger">404 Error</p>
-            <p class="fw-bold">Sorry, the page you're looking for couldn't be found.</p>
+            <p class="fw-bolder text-danger">403 Access Forbidden</p>
+            <p class="fw-bold">Sorry, You don't have any permission to access the page.</p>
             <a href="./">Back to home</a>
         </div>
     </div>
