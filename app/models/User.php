@@ -10,6 +10,16 @@ class User
         $this->connection = $dbh;
     }
 
+    public function getAll()
+    {
+        $stmt = $this->connection->prepare("
+                SELECT u.id, u.fullname, u.username, u.email, u.role, s.nis FROM users u
+                LEFT JOIN students s on u.students_id = s.id");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function attempt($username, $password)
     {
         $stmt = $this->connection->prepare("SELECT * FROM users WHERE username = :username");
@@ -63,15 +73,5 @@ class User
         }
 
         return false;
-    }
-
-    public function getAll()
-    {
-        $stmt = $this->connection->prepare("
-                SELECT u.id, u.fullname, u.username, u.email, u.role, s.nis FROM users u
-                LEFT JOIN students s on u.students_id = s.id");
-        $stmt->execute();
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
