@@ -1,5 +1,6 @@
 <?php
 require_once './app/models/Classroom.php';
+require_once './app/helpers/Alert.php';
 
 if ($_SESSION['user']['role'] !== 'admin') {
     header('Location: ./403.php');
@@ -29,6 +30,11 @@ $classrooms = $classroom->getAll();
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
+                <a href="./dashboard.php?page=add-classroom" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus mr-1"></i>
+                    Tambah Kelas
+                </a>
+                <?php Alert::notify(); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Kelas</h3>
@@ -52,6 +58,7 @@ $classrooms = $classroom->getAll();
                                 <th>Kelas</th>
                                 <th>Nama Kelas</th>
                                 <th>Tahun Ajaran</th>
+                                <th>Jumlah Siswa</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -63,16 +70,28 @@ $classrooms = $classroom->getAll();
                                     <td><?= $value['classroom'] ?></td>
                                     <td><?= $value['classroom_name'] ?></td>
                                     <td><?= $value['tahun_ajaran'] ?></td>
+                                    <td><?= $value['students_count'] ?></td>
                                     <td><?= $value['status'] ?></td>
-                                    <td>-</td>
+                                    <td>
+                                        <form action="./app/controllers/ClassroomController.php" method="POST">
+                                            <a href="./dashboard.php?page=classroom-student-lists&id=<?= $value['id'] ?>" class="btn btn-xs btn-warning">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="./dashboard.php?page=edit-classroom&id=<?= $value['id'] ?>" class="btn btn-xs btn-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                            <button type="submit" name="submit" value="delete" class="btn btn-xs btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

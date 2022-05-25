@@ -2,6 +2,7 @@
 session_start();
 require_once '../../config.php';
 require_once '../models/User.php';
+require_once '../helpers/Validate.php';
 
 $user = new User();
 
@@ -19,24 +20,7 @@ $attributes = [
     'password_confirmation' => $passwordConfirmation
 ];
 
-$_SESSION['error'] = null;
-foreach ($attributes as $key => $value) {
-    if (empty($value)) {
-        $_SESSION['error'][$key] = 'The ' . $key . ' field is required.';
-    }
-    if ($key === 'password' && $value !== $passwordConfirmation) {
-        $_SESSION['error']['password'] = 'The password and confirmation password do not match.';
-    }
-    if ($key === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['error']['email'] = 'The email must be a valid email address.';
-    }
-    if ($key === 'username' && $user->existsUsername($value)) {
-        $_SESSION['error']['username'] = 'The username is already been taken.';
-    }
-    if ($key === 'email' && $user->existsEmail($value)) {
-        $_SESSION['error']['email'] = 'The email is already been taken.';
-    }
-}
+$_SESSION['error'] = Validate::registerValidation($attributes, $user, $passwordConfirmation);
 
 if (isset($_SESSION['error'])) {
     $_SESSION['error']['old'] = $attributes;

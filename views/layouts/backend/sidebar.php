@@ -24,7 +24,8 @@ $menus = [
         'url' => '#',
         'is_active' => in_array($requestPage, [
                 'user-lists', 'student-lists', 'classroom-lists', 'add-student-classroom',
-                'bill-lists', 'add-student-bill', 'bill-student-lists']),
+            'bill-lists', 'add-student-bill', 'bill-student-lists', 'add-classroom', 'edit-classroom',
+            'classroom-student-lists']),
         'role' => 'admin',
         'children' => [
             [
@@ -45,7 +46,8 @@ $menus = [
                 'title' => 'List Kelas',
                 'icon' => 'far fa-circle nav-icon',
                 'url' => './dashboard.php?page=classroom-lists',
-                'is_active' => isActive('classroom-lists'),
+                'is_active' => in_array($requestPage, ['classroom-lists', 'add-classroom',
+                    'edit-classroom', 'classroom-student-lists']),
                 'role' => 'admin',
             ],
             [
