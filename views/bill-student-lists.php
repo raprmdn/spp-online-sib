@@ -7,8 +7,14 @@ if ($_SESSION['user']['role'] !== 'admin') {
     exit;
 }
 
+$limit = 30;
+$page = $_GET['p'] ?? 1;
+$offset = ($page - 1) * $limit;
+
 $billDetail = new BillDetail();
-$bills = $billDetail->getAll();
+$bills = $billDetail->getAllPaginate($offset, $limit);
+$totalPages = ceil(count($billDetail->getAll()) / $limit);
+
 ?>
 <div class="content-header">
     <div class="container-fluid">
@@ -44,7 +50,6 @@ $bills = $billDetail->getAll();
                             </div>
                         </div>
                     </div>
-
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover text-nowrap">
                             <thead>
@@ -65,7 +70,7 @@ $bills = $billDetail->getAll();
                             <tbody>
                             <?php foreach ($bills as $key => $value) : ?>
                                 <tr>
-                                    <td><?= $key + 1 ?></td>
+                                    <td><?= $offset + $key + 1; ?></td>
                                     <td><?= $value['bill_name'] ?></td>
                                     <td><?= $value['bill_detail'] ?></td>
                                     <td><?= Helper::rupiahFormat($value['amount']) ?></td>
@@ -86,9 +91,30 @@ $bills = $billDetail->getAll();
                             </tbody>
                         </table>
                     </div>
-
+                    <div class="card-footer">
+                        <nav aria-label="Contacts Page Navigation">
+                            <ul class="pagination justify-content-center m-0">
+                                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="?page=bill-student-lists&p=<?= $page - 1 ?>" tabindex="-1">
+                                        <i class="fas fa-angle-left"></i>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                                    <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=bill-student-lists&p=<?= $i ?>"><?= $i ?></a>
+                                    </li>
+                                <?php endfor; ?>
+                                <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="?page=bill-student-lists&p=<?= $page + 1 ?>">
+                                        <i class="fas fa-angle-right"></i>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

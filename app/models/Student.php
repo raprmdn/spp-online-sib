@@ -26,7 +26,7 @@ class Student
                         WHERE s1.id = s.id
                     )
                 OR s.id NOT IN (SELECT students_id FROM students_classroom)
-                ORDER BY s.id ASC
+                ORDER BY c.classroom DESC
         ");
         $stmt->execute();
 

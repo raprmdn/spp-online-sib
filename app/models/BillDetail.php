@@ -10,7 +10,7 @@ class BillDetail
         $this->connection = $dbh;
     }
 
-    public function getAll()
+    public function getAllPaginate($offset, $limit)
     {
         $stmt = $this->connection->prepare("
                 SELECT bd.id, b.name AS bill_name, bd.bill_detail, bd.amount, s.fullname, c.classroom_name AS classroom, s.nis, b.year, bd.status
@@ -20,7 +20,18 @@ class BillDetail
                 JOIN classrooms c on c.id = scb.classrooms_id
                 JOIN bills b on b.id = scb.bills_id
                 ORDER BY bd.id DESC
+                LIMIT :offset, :limit
         ");
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public function getAll()
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM bill_details");
         $stmt->execute();
 
         return $stmt->fetchAll();
