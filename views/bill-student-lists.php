@@ -84,7 +84,9 @@ $totalPages = ceil(count($billDetail->getAll()) / $limit);
                                             : '<span class="badge badge-danger">' . $value['status'] . '</span>'
                                         ?>
                                     </td>
-                                    <td>-</td>
+                                    <td>
+                                        <?= $value['paid_at'] ? Helper::dateFormat($value['paid_at']) : '-' ?>
+                                    </td>
                                     <td>-</td>
                                 </tr>
                             <?php endforeach; ?>

@@ -13,7 +13,7 @@ class BillDetail
     public function getAllPaginate($offset, $limit)
     {
         $stmt = $this->connection->prepare("
-                SELECT bd.id, b.name AS bill_name, bd.bill_detail, bd.amount, s.fullname, c.classroom_name AS classroom, s.nis, b.year, bd.status
+                SELECT bd.id, b.name AS bill_name, bd.bill_detail, bd.amount, s.fullname, c.classroom_name AS classroom, s.nis, b.year, bd.status, bd.paid_at
                 FROM bill_details bd
                 JOIN student_classroom_bills scb on scb.id = bd.student_classroom_bills_id
                 JOIN students s on s.id = scb.students_id
