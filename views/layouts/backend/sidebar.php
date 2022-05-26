@@ -100,7 +100,7 @@ $menus = [
         'title' => 'Profile Settings',
         'icon' => 'fas fa-user-cog',
         'url' => '#',
-        'is_active' => in_array($requestPage, ['profile-student-settings', 'update-password']),
+        'is_active' => in_array($requestPage, ['profile-student-settings', 'change-password']),
         'role' => null,
         'children' => [
             [
@@ -111,10 +111,10 @@ $menus = [
                 'role' => null,
             ],
             [
-                'title' => 'Update Password',
+                'title' => 'Change Password',
                 'icon' => 'far fa-circle nav-icon',
-                'url' => './dashboard.php?page=update-password',
-                'is_active' => isActive('update-password'),
+                'url' => './dashboard.php?page=change-password',
+                'is_active' => isActive('change-password'),
                 'role' => null,
             ]
         ],

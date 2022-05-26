@@ -10,6 +10,14 @@ class User
         $this->connection = $dbh;
     }
 
+    public function find($id)
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getAll()
     {
         $stmt = $this->connection->prepare("
@@ -26,6 +34,15 @@ class User
         $stmt->execute([
             'students_id' => $studentId,
             'id' => $id
+        ]);
+    }
+
+    public function updatePassword($attributes): void
+    {
+        $stmt = $this->connection->prepare("UPDATE users SET password = :password WHERE id = :id");
+        $stmt->execute([
+            'password' => password_hash($attributes['password'], PASSWORD_DEFAULT),
+            'id' => $attributes['id']
         ]);
     }
 
