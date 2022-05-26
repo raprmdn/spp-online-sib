@@ -81,6 +81,14 @@ $menus = [
         ],
     ],
     [
+        'title' => 'Kelas',
+        'icon' => 'fas fa-school',
+        'url' => './dashboard.php?page=classroom',
+        'is_active' => in_array($requestPage, ['classroom', 'classroom-detail']),
+        'role' => null,
+        'children' => [],
+    ],
+    [
         'title' => 'Bayar Tagihan',
         'icon' => 'fas fa-money-check-alt',
         'url' => './dashboard.php?page=payment-bill',

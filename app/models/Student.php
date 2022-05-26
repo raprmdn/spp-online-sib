@@ -32,4 +32,35 @@ class Student
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getMyStudentProfile($id)
+    {
+        $stmt = $this->connection->prepare("
+                SELECT s.*, c.classroom, c.classroom_name
+                FROM students s
+                JOIN students_classroom sc on sc.students_id = s.id
+                JOIN classrooms c on c.id = sc.classroom_id
+                WHERE s.id = :id
+                ORDER BY sc.id DESC
+                LIMIT 1
+        ");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllStudentClassroom($id)
+    {
+        $stmt = $this->connection->prepare("
+                SELECT c.*
+                FROM classrooms c
+                JOIN students_classroom sc on sc.classroom_id = c.id
+                JOIN students s on s.id = sc.students_id
+                WHERE s.id = :id
+                ORDER BY c.id DESC;
+        ");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
