@@ -46,5 +46,11 @@ if (!isset($_SESSION['user'])) {
 <script src="assets/backend/plugins/jquery/jquery.min.js"></script>
 <script src="assets/backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/backend/dist/js/adminlte.min.js"></script>
+<script src="assets/backend/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script>
+    $(function () {
+        $('[data-mask]').inputmask()
+    })
+</script>
 </body>
 </html>

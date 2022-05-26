@@ -20,6 +20,15 @@ class User
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function fillInStudentId($id, $studentId)
+    {
+        $stmt = $this->connection->prepare("UPDATE users SET students_id = :students_id WHERE id = :id");
+        $stmt->execute([
+            'students_id' => $studentId,
+            'id' => $id
+        ]);
+    }
+
     public function attempt($username, $password)
     {
         $stmt = $this->connection->prepare("SELECT * FROM users WHERE username = :username");

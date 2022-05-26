@@ -100,7 +100,7 @@ $menus = [
         'title' => 'Profile Settings',
         'icon' => 'fas fa-user-cog',
         'url' => '#',
-        'is_active' => isActive('profile-student-settings') || isActive('update-password'),
+        'is_active' => in_array($requestPage, ['profile-student-settings', 'update-password']),
         'role' => null,
         'children' => [
             [
@@ -128,6 +128,16 @@ $menus = [
         'children' => [],
     ]
 ];
+
+if ($user['students_id'] === null) {
+    $menus[] = [
+        'title' => 'Buat Akun Siswa',
+        'icon' => 'far fa-plus-square',
+        'url' => './dashboard.php?page=create-student',
+        'is_active' => isActive('create-student'),
+        'role' => null,
+    ];
+}
 
 ?>
 

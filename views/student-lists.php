@@ -53,6 +53,7 @@ $students = $student->getAll();
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>NIS Siswa</th>
+                                    <th>Gender</th>
                                     <th>Kelas</th>
                                     <th>Tahun Ajaran</th>
                                     <th>Action</th>
@@ -66,6 +67,7 @@ $students = $student->getAll();
                                     <td><?= $value['username'] ?></td>
                                     <td><?= $value['email'] ?></td>
                                     <td><?= $value['nis'] ?></td>
+                                    <td><?= $value['gender'] ?></td>
                                     <td><?= $value['classroom'] ?: '-' ?></td>
                                     <td><?= $value['tahun_ajaran'] ?: '-' ?></td>
                                     <td>-</td>

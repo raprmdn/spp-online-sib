@@ -5,7 +5,7 @@ $authId = $_SESSION['user']['id'] ?? null;
 $authStudentId = $_SESSION['user']['students_id'] ?? null;
 
 $studentObj = new Student();
-$student = $studentObj->getMyStudentProfile($authStudentId);
+$student = $studentObj->getMyStudentProfileWithClassroom($authStudentId);
 $studentClassrooms = $studentObj->getAllStudentClassroom($authStudentId);
 
 ?>
@@ -32,7 +32,7 @@ $studentClassrooms = $studentObj->getAllStudentClassroom($authStudentId);
                 <div class="callout callout-info">
                     <h5><i class="fas fa-info"></i> Notification:</h5>
                     Anda saat ini belum memiliki Akun Siswa. Silahkan buat Akun Siswa terlebih dahulu pada menu
-                    <a href="./dashboard.php?page=student-settings" class="text-primary">Profile Student Settings</a>
+                    <a href="./dashboard.php?page=create-student" class="text-primary">Buat Akun Siswa</a>
                 </div>
             </div>
             <?php else : ?>

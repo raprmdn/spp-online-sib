@@ -13,7 +13,7 @@ class Student
     public function getAll()
     {
         $stmt = $this->connection->prepare("
-                SELECT s.id, s.fullname, u.username, u.email, s.nis, c.classroom_name AS classroom, c.tahun_ajaran
+                SELECT s.id, s.fullname, u.username, u.email, s.nis, s.gender, c.classroom_name AS classroom, c.tahun_ajaran
                 FROM students s
                 LEFT JOIN users u on s.id = u.students_id
                 LEFT JOIN students_classroom sc on s.id = sc.students_id
@@ -33,13 +33,21 @@ class Student
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getMyStudentProfile($id)
+    public function getStudentProfile($id)
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM students WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getMyStudentProfileWithClassroom($id)
     {
         $stmt = $this->connection->prepare("
                 SELECT s.*, c.classroom, c.classroom_name
                 FROM students s
-                JOIN students_classroom sc on sc.students_id = s.id
-                JOIN classrooms c on c.id = sc.classroom_id
+                LEFT JOIN students_classroom sc on sc.students_id = s.id
+                LEFT JOIN classrooms c on c.id = sc.classroom_id
                 WHERE s.id = :id
                 ORDER BY sc.id DESC
                 LIMIT 1
@@ -62,5 +70,42 @@ class Student
         $stmt->execute(['id' => $id]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($attributes)
+    {
+        $stmt = $this->connection->prepare("
+                INSERT INTO students (fullname, nis, gender, religion, birthplace, birthdate, address, phone_number, status)
+                VALUES (:fullname, :nis, :gender, :religion, :birthplace, :birthdate, :address, :phone_number, :status)
+        ");
+        $stmt->execute([
+            'fullname' => $attributes['nama_lengkap'],
+            'nis' => $attributes['nis'],
+            'gender' => $attributes['jenis_kelamin'],
+            'religion' => $attributes['agama'],
+            'birthplace' => $attributes['tempat_lahir'],
+            'birthdate' => $attributes['tanggal_lahir'],
+            'address' => $attributes['alamat'],
+            'phone_number' => $attributes['no_hp'],
+            'status' => $attributes['status']
+        ]);
+
+        return $this->connection->lastInsertId();
+    }
+
+    public function update($attributes): void
+    {
+        $stmt = $this->connection->prepare("UPDATE students SET fullname = :fullname, gender = :gender, religion = :religion, 
+                    birthplace = :birthplace, birthdate = :birthdate, address = :address, phone_number = :phone_number WHERE id = :id");
+        $stmt->execute([
+            'fullname' => $attributes['nama_lengkap'],
+            'gender' => $attributes['jenis_kelamin'],
+            'religion' => $attributes['agama'],
+            'birthplace' => $attributes['tempat_lahir'],
+            'birthdate' => $attributes['tanggal_lahir'],
+            'address' => $attributes['alamat'],
+            'phone_number' => $attributes['no_hp'],
+            'id' => $attributes['id'],
+        ]);
     }
 }

@@ -80,7 +80,7 @@ if (!$bill) {
                                     <td><?= $value['tahun_ajaran'] ?></td>
                                     <td><?= Helper::rupiahFormat($value['amount']) ?></td>
                                     <td>
-                                        <a href="" class="btn btn-xs btn-warning">
+                                        <a href="./dashboard.php?page=classroom-student-lists&id=<?= $value['id'] ?>" class="btn btn-xs btn-warning">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>

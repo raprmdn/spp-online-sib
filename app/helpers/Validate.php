@@ -78,4 +78,32 @@ class Validate
 
         return $_SESSION['error'];
     }
+
+    public static function studentValidation($attributes)
+    {
+        $_SESSION['error'] = null;
+        foreach ($attributes as $key => $value) {
+            if ($key === 'nama_lengkap' && !is_string($value)) {
+                $_SESSION['error']['nama_lengkap'] = 'The nama lengkap must be a string.';
+            }
+            if ($key === 'agama' && !is_string($value)) {
+                $_SESSION['error']['agama'] = 'The agama must be a string.';
+            }
+            if ($key === 'jenis_kelamin' && !in_array($value, ['Laki-Laki', 'Perempuan'])) {
+                $_SESSION['error']['jenis_kelamin'] = 'The jenis kelamin must be either Laki-Laki or Perempuan.';
+            }
+            if ($key === 'no_hp' && !preg_match('/^\+62/', $value)) {
+                $_SESSION['error']['no_hp'] = 'The no hp must start with +62.';
+            }
+            if ($key === 'tanggal_lahir' && !preg_match('/^\d{4}\/\d{2}\/\d{2}$/', $value)) {
+                $_SESSION['error']['tanggal_lahir'] = 'The tanggal lahir must be in the format yyyy/mm/dd.';
+            }
+            if (empty($value)) {
+                $_SESSION['error'][$key] = 'The ' . str_replace('_', ' ', $key) . ' field is required.';
+            }
+        }
+
+        return $_SESSION['error'];
+    }
+
 }
