@@ -13,13 +13,13 @@ unset($_SESSION['error']);
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Tambah Kelas</h1>
+                <h1 class="m-0">Tambah Tagihan</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="./dashboard.php">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="./dashboard.php?page=classroom-lists">List Kelas</a></li>
-                    <li class="breadcrumb-item active">Tambah Kelas</li>
+                    <li class="breadcrumb-item"><a href="./dashboard.php?page=bill-lists">List Tagihan</a></li>
+                    <li class="breadcrumb-item active">Tambah Tagihan</li>
                 </ol>
             </div>
         </div>
@@ -29,37 +29,37 @@ unset($_SESSION['error']);
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <a href="./dashboard.php?page=classroom-lists" class="btn btn-primary mb-3">
+                <a href="./dashboard.php?page=bill-lists" class="btn btn-primary mb-3">
                     <i class="fas fa-arrow-left mr-1"></i>
                     Kembali
                 </a>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Kelas</h3>
+                        <h3 class="card-title">Tambah Tagihan</h3>
                     </div>
-                    <form action="./app/controllers/ClassroomController.php" method="POST" autocomplete="off">
+                    <form action="./app/controllers/BillController.php" method="POST" autocomplete="off">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="kelas">Kelas</label>
-                                        <input type="text" class="form-control <?= isset($error['kelas']) ? 'is-invalid' : '' ?>" id="kelas" name="kelas"
-                                               value="<?= $error ? $error['old']['kelas'] : '' ?>" placeholder="Masukkan Kelas. ex: 10">
-                                        <?= isset($error['kelas']) ? '<div class="invalid-feedback">' . $error['kelas'] . '</div>' : '' ?>
+                                        <label for="nama_tagihan">Nama Tagihan</label>
+                                        <input type="text" class="form-control <?= isset($error['nama_tagihan']) ? 'is-invalid' : '' ?>" id="nama_tagihan" name="nama_tagihan"
+                                               value="<?= $error ? $error['old']['nama_tagihan'] : '' ?>" placeholder="Masukkan nama tagihan">
+                                        <?= isset($error['nama_tagihan']) ? '<div class="invalid-feedback">' . $error['nama_tagihan'] . '</div>' : '' ?>
                                     </div>
                                     <div class="form-group">
-                                        <label for="nama_kelas">Nama Kelas</label>
-                                        <input type="text" class="form-control <?= isset($error['nama_kelas']) ? 'is-invalid' : '' ?>" id="nama_kelas" name="nama_kelas"
-                                               value="<?= $error ? $error['old']['nama_kelas'] : '' ?>" placeholder="Masukkan Nama Kelas. ex: 10 A">
-                                        <?= isset($error['nama_kelas']) ? '<div class="invalid-feedback">' . $error['nama_kelas'] . '</div>' : '' ?>
+                                        <label for="tahun_tagihan">Tahun Tagihan</label>
+                                        <input type="text" class="form-control <?= isset($error['tahun_tagihan']) ? 'is-invalid' : '' ?>" id="tahun_tagihan" name="tahun_tagihan"
+                                               value="<?= $error ? $error['old']['tahun_tagihan'] : '' ?>" placeholder="Masukkan tahun tagihan">
+                                        <?= isset($error['tahun_tagihan']) ? '<div class="invalid-feedback">' . $error['tahun_tagihan'] . '</div>' : '' ?>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="tahun">Tahun Ajaran</label>
-                                        <input type="text" class="form-control <?= isset($error['tahun']) ? 'is-invalid' : '' ?>" id="tahun" name="tahun"
-                                               value="<?= $error ? $error['old']['tahun'] : '' ?>" placeholder="Masukkan Tahun Ajaran">
-                                        <?= isset($error['tahun']) ? '<div class="invalid-feedback">' . $error['tahun'] . '</div>' : '' ?>
+                                        <label for="jumlah_tagihan">Jumlah Tagihan</label>
+                                        <input type="text" class="form-control <?= isset($error['jumlah_tagihan']) ? 'is-invalid' : '' ?>" id="jumlah_tagihan" name="jumlah_tagihan"
+                                               value="<?= $error ? $error['old']['jumlah_tagihan'] : '' ?>" placeholder="Masukkan jumlah tagihan">
+                                        <?= isset($error['jumlah_tagihan']) ? '<div class="invalid-feedback">' . $error['jumlah_tagihan'] . '</div>' : '' ?>
                                     </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>

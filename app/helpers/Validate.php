@@ -48,4 +48,34 @@ class Validate
 
         return $_SESSION['error'];
     }
+
+    public static function billValidation($attributes)
+    {
+        $_SESSION['error'] = null;
+        foreach ($attributes as $key => $value) {
+            if ($key === 'tahun_tagihan' && !is_numeric($value)) {
+                $_SESSION['error']['tahun_tagihan'] = 'The tahun must be a number.';
+            }
+            if ($key === 'tahun_tagihan' && strlen($value) !== 4) {
+                $_SESSION['error']['tahun_tagihan'] = 'The tahun must be a 4 digit number.';
+            }
+            if ($key === 'tahun_tagihan' && $value <= 0) {
+                $_SESSION['error']['tahun_tagihan'] = 'The tahun must be greater than 0.';
+            }
+            if ($key === 'jumlah_tagihan' && !is_numeric($value)) {
+                $_SESSION['error']['jumlah_tagihan'] = 'The amount must be a number.';
+            }
+            if ($key === 'jumlah_tagihan' && $value <= 0) {
+                $_SESSION['error']['jumlah_tagihan'] = 'The amount must be greater than 0.';
+            }
+            if ($key === 'status' && !in_array($value, ['ACTIVE', 'INACTIVE'])) {
+                $_SESSION['error']['status'] = 'The status must be either ACTIVE or INACTIVE.';
+            }
+            if (empty($value)) {
+                $_SESSION['error'][$key] = 'The ' . str_replace('_', ' ', $key) . ' field is required.';
+            }
+        }
+
+        return $_SESSION['error'];
+    }
 }
