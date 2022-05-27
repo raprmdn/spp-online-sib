@@ -18,6 +18,8 @@ if (!isset($_SESSION['user'])) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="assets/backend/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="assets/backend/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="assets/backend/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="assets/backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -47,8 +49,10 @@ if (!isset($_SESSION['user'])) {
 <script src="assets/backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/backend/dist/js/adminlte.min.js"></script>
 <script src="assets/backend/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="assets/backend/plugins/select2/js/select2.full.min.js"></script>
 <script>
     $(function () {
+        $('.select2').select2()
         $('[data-mask]').inputmask()
     })
 </script>

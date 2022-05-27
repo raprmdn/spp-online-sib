@@ -51,13 +51,6 @@ $menus = [
                 'role' => 'admin',
             ],
             [
-                'title' => 'Tambah Siswa Kelas',
-                'icon' => 'far fa-circle nav-icon',
-                'url' => './dashboard.php?page=add-student-classroom',
-                'is_active' => isActive('add-student-classroom'),
-                'role' => 'admin',
-            ],
-            [
                 'title' => 'List Tagihan',
                 'icon' => 'far fa-circle nav-icon',
                 'url' => './dashboard.php?page=bill-lists',

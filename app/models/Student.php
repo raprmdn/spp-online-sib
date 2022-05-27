@@ -33,6 +33,29 @@ class Student
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findAll()
+    {
+        $stmt = $this->connection->prepare("
+                SELECT s.*, c.classroom_name AS classroom, c.tahun_ajaran
+                FROM students s
+                LEFT JOIN users u on s.id = u.students_id
+                LEFT JOIN students_classroom sc on s.id = sc.students_id
+                LEFT JOIN classrooms c on c.id = sc.classroom_id
+                WHERE c.tahun_ajaran = (
+                        SELECT MAX(c2.tahun_ajaran)
+                        FROM students s1
+                            JOIN students_classroom sc2 on s1.id = sc2.students_id
+                            JOIN classrooms c2 on c2.id = sc2.classroom_id
+                        WHERE s1.id = s.id
+                    )
+                OR s.id NOT IN (SELECT students_id FROM students_classroom)
+                ORDER BY c.classroom DESC
+        ");
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getStudentProfile($id)
     {
         $stmt = $this->connection->prepare("SELECT * FROM students WHERE id = :id");

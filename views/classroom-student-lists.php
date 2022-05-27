@@ -1,5 +1,7 @@
 <?php
+require_once './app/helpers/Alert.php';
 require_once './app/models/Classroom.php';
+require_once './app/models/Student.php';
 
 if ($_SESSION['user']['role'] !== 'admin') {
     header('Location: ./403.php');
@@ -9,8 +11,15 @@ if ($_SESSION['user']['role'] !== 'admin') {
 $id = $_REQUEST['id'] ?? null;
 
 $classroomObj = new Classroom();
+$student = new Student();
 $students = $classroomObj->getStudentByClassroom($id);
 $classroom = $classroomObj->getClassroomById($id);
+$studentLists = $student->findAll();
+
+$merged = array_merge($students, $studentLists);
+$availStudents = array_filter($merged, function ($student) use ($classroom) {
+    return $student['tahun_ajaran'] !== $classroom['tahun_ajaran'];
+});
 
 if (!$classroom){
     header('Location: ./404.php');
@@ -41,6 +50,13 @@ if (!$classroom){
                     <i class="fas fa-arrow-left mr-2"></i>
                     Kembali
                 </a>
+                <?php if ($classroom['status'] === 'ACTIVE') : ?>
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-lg">
+                        <i class="fas fa-plus mr-2"></i>
+                       Tambah Siswa
+                    </button>
+                <?php endif; ?>
+                <?php Alert::notify(); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Siswa Kelas <?= $classroom['classroom_name'] ?> - <?= $classroom['tahun_ajaran'] ?></h3>
@@ -96,6 +112,35 @@ if (!$classroom){
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Siswa</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="./app/controllers/StudentsClassroomController.php" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="classroom_id" value="<?= $classroom['id'] ?>">
+                        <label>Select Students</label>
+                        <select class="select2" multiple="multiple" id="students" name="students[]" data-placeholder="Select a students" style="width: 100%;">
+                            <?php foreach ($availStudents as $key => $value) : ?>
+                                <option value="<?= $value['id'] ?>"><?= $value['fullname'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
