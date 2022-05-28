@@ -112,6 +112,20 @@ class Student
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function findByClassroomId($id)
+    {
+        $stmt = $this->connection->prepare("
+                SELECT s.*
+                FROM students s
+                JOIN students_classroom sc on s.id = sc.students_id
+                JOIN classrooms c on c.id = sc.classroom_id
+                WHERE c.id = :id
+        ");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function create($attributes)
     {
         $stmt = $this->connection->prepare("

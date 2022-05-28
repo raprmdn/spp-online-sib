@@ -36,4 +36,18 @@ class BillDetail
 
         return $stmt->fetchAll();
     }
+
+    public function create($attributes)
+    {
+        $stmt = $this->connection->prepare("
+                INSERT INTO bill_details (student_classroom_bills_id, bill_detail, status, amount) 
+                VALUES (:student_classroom_bills_id, :bill_detail, :status, :amount)"
+        );
+        $stmt->execute([
+            'student_classroom_bills_id' => $attributes['student_classroom_bills_id'],
+            'bill_detail' => $attributes['bill_detail'],
+            'amount' => $attributes['amount'],
+            'status' => $attributes['status']
+        ]);
+    }
 }

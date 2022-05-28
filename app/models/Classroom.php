@@ -47,6 +47,23 @@ class Classroom
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAvailableClassrooms($id)
+    {
+        $stmt = $this->connection->prepare("
+                SELECT *
+                FROM classrooms
+                WHERE id NOT IN (
+                    SELECT classrooms_id
+                    FROM student_classroom_bills
+                    WHERE bills_id = :id
+                )
+                AND classrooms.status = 'ACTIVE';
+        ");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function create($attributes): void
     {
         $stmt = $this->connection->prepare("

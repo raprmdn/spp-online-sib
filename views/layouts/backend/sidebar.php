@@ -58,13 +58,6 @@ $menus = [
                 'role' => 'admin',
             ],
             [
-                'title' => 'Tambah Tagihan Siswa',
-                'icon' => 'far fa-circle nav-icon',
-                'url' => './dashboard.php?page=add-student-bill',
-                'is_active' => isActive('add-student-bill'),
-                'role' => 'admin',
-            ],
-            [
                 'title' => 'List Tagihan Siswa',
                 'icon' => 'far fa-circle nav-icon',
                 'url' => './dashboard.php?page=bill-student-lists',

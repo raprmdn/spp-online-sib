@@ -1,6 +1,8 @@
 <?php
 require_once './app/models/Bill.php';
+require_once './app/models/Classroom.php';
 require_once './app/helpers/Helper.php';
+require_once './app/helpers/Alert.php';
 
 if ($_SESSION['user']['role'] !== 'admin') {
     header('Location: ./403.php');
@@ -10,8 +12,11 @@ if ($_SESSION['user']['role'] !== 'admin') {
 $id = $_REQUEST['id'] ?? null;
 
 $bill = new Bill();
+$classroom = new Classroom();
+
 $classrooms = $bill->getClassroomByBill($id);
 $bill = $bill->getBillById($id);
+$availClassrooms = $classroom->getAvailableClassrooms($bill['id']);
 
 if (!$bill) {
     header('Location: ./404.php');
@@ -42,6 +47,13 @@ if (!$bill) {
                     <i class="fas fa-arrow-left mr-2"></i>
                     Kembali
                 </a>
+                <?php if ( $bill['status'] === 'ACTIVE' ) : ?>
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-lg">
+                        <i class="fas fa-plus mr-2"></i>
+                        Tambah Tagihan Kelas
+                    </button>
+                <?php endif; ?>
+                <?php Alert::notify(); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Kelas dari Tagihan: <?= $bill['name'] ?> Tahun Ajaran: <?= $bill['year'] ?></h3>
@@ -94,4 +106,32 @@ if (!$bill) {
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Tagihan Kelas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="./app/controllers/BillClassroomController.php" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="bill_id" value="<?= $bill['id'] ?>">
+                        <label>Select Classrooms</label>
+                        <select class="select2" multiple="multiple" id="classrooms" name="classrooms[]" data-placeholder="Select a classrooms" style="width: 100%;">
+                            <?php foreach ($availClassrooms as $key => $value) : ?>
+                                <option value="<?= $value['id'] ?>"><?= $value['classroom'] ?> - <?= $value['classroom_name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
