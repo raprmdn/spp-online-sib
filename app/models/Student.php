@@ -95,6 +95,23 @@ class Student
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getStudentBills($id)
+    {
+        $stmt = $this->connection->prepare("
+                SELECT bd.id, b.name AS bill_name, bd.bill_detail, bd.amount, s.fullname, c.classroom_name AS classroom, s.nis, b.year, bd.status, bd.paid_at
+                FROM bill_details bd
+                JOIN student_classroom_bills scb on scb.id = bd.student_classroom_bills_id
+                JOIN students s on s.id = scb.students_id
+                JOIN classrooms c on c.id = scb.classrooms_id
+                JOIN bills b on b.id = scb.bills_id
+                WHERE s.id = :id
+                ORDER BY bd.id DESC
+        ");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function create($attributes)
     {
         $stmt = $this->connection->prepare("
