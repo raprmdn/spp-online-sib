@@ -50,4 +50,14 @@ class BillDetail
             'status' => $attributes['status']
         ]);
     }
+
+    public function update($attributes): void
+    {
+        $stmt = $this->connection->prepare("UPDATE bill_details SET status = :status, paid_at = :paid_at WHERE id = :id");
+        $stmt->execute([
+            'status' => $attributes['status'],
+            'paid_at' => $attributes['paid_at'],
+            'id' => $attributes['id']
+        ]);
+    }
 }

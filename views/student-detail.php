@@ -1,6 +1,7 @@
 <?php
 require_once './app/models/Student.php';
 require_once './app/helpers/Helper.php';
+require_once './app/helpers/Alert.php';
 
 if ($_SESSION['user']['role'] !== 'admin') {
     header('Location: ./403.php');
@@ -30,6 +31,7 @@ $bills = $studentObj->getStudentBills($studentId);
 </div>
 <div class="content">
     <div class="container-fluid">
+        <?php Alert::notify(); ?>
         <div class="row">
             <div class="col-md-3">
                 <div class="card card-primary card-outline">
@@ -104,7 +106,22 @@ $bills = $studentObj->getStudentBills($studentId);
                                     <td>
                                         <?= $value['paid_at'] ? Helper::dateFormat($value['paid_at']) : '-' ?>
                                     </td>
-                                    <td>-</td>
+                                    <td>
+                                        <?php if ($value['status'] === 'UNPAID') : ?>
+                                            <form action="./app/controllers/PaymentController.php" method="post">
+                                                <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                <input type="hidden" name="page" value="<?= $_GET['page'] ?>">
+                                                <input type="hidden" name="user_param" value="<?= $_GET['id'] ?>">
+                                                <button type="submit" class="btn btn-xs btn-primary">
+                                                    PAY
+                                                </button>
+                                            </form>
+                                        <?php else : ?>
+                                            <button type="button" class="btn btn-xs btn-success">
+                                                PAID
+                                            </button>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

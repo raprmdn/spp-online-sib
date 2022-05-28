@@ -1,6 +1,7 @@
 <?php
 require_once './app/models/Student.php';
 require_once './app/helpers/Helper.php';
+require_once './app/helpers/Alert.php';
 
 $studentObj = new Student();
 
@@ -28,6 +29,7 @@ $studentBills = $studentObj->getStudentBills($authStudentId);
 </div>
 <div class="content">
     <div class="container-fluid">
+        <?php Alert::notify(); ?>
         <div class="row">
             <?php if (!$authStudentId) : ?>
                 <div class="col-md-12">
@@ -39,39 +41,39 @@ $studentBills = $studentObj->getStudentBills($authStudentId);
                 </div>
             <?php else : ?>
                 <div class="col-md-3">
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="/assets/backend/dist/img/user4-128x128.jpg" alt="User profile picture">
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle" src="/assets/backend/dist/img/user4-128x128.jpg" alt="User profile picture">
+                            </div>
+                            <h3 class="profile-username text-center"><?= $student['fullname'] ?></h3>
+                            <p class="text-muted text-center"><?= $student['classroom'] ?> - <?= $student['classroom_name'] ?></p>
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>NIS</b> <a class="float-right"><?= $student['nis'] ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Jenis Kelamin</b> <a class="float-right"><?= $student['gender'] ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Agama</b> <a class="float-right"><?= $student['religion'] ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Tempat Lahir</b> <a class="float-right"><?= $student['birthplace'] ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Tanggal Lahir</b> <a class="float-right"><?= $student['birthdate'] ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Alamat</b> <a class="float-right"><?= $student['address'] ?></a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>No HP</b> <a class="float-right"><?= $student['phone_number'] ?></a>
+                                </li>
+                            </ul>
                         </div>
-                        <h3 class="profile-username text-center"><?= $student['fullname'] ?></h3>
-                        <p class="text-muted text-center"><?= $student['classroom'] ?> - <?= $student['classroom_name'] ?></p>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>NIS</b> <a class="float-right"><?= $student['nis'] ?></a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Jenis Kelamin</b> <a class="float-right"><?= $student['gender'] ?></a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Agama</b> <a class="float-right"><?= $student['religion'] ?></a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Tempat Lahir</b> <a class="float-right"><?= $student['birthplace'] ?></a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Tanggal Lahir</b> <a class="float-right"><?= $student['birthdate'] ?></a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Alamat</b> <a class="float-right"><?= $student['address'] ?></a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>No HP</b> <a class="float-right"><?= $student['phone_number'] ?></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
-            </div>
                 <div class="col-md-9">
                     <div class="card">
                         <div class="card-body table-responsive p-0">
@@ -111,7 +113,21 @@ $studentBills = $studentObj->getStudentBills($authStudentId);
                                         <td>
                                             <?= $value['paid_at'] ? Helper::dateFormat($value['paid_at']) : '-' ?>
                                         </td>
-                                        <td>-</td>
+                                        <td>
+                                            <?php if ($value['status'] === 'UNPAID') : ?>
+                                                <form action="./app/controllers/PaymentController.php" method="post">
+                                                    <input type="hidden" name="id" value="<?= $value['id'] ?>">
+                                                    <input type="hidden" name="page" value="<?= $_GET['page'] ?>">
+                                                    <button type="submit" class="btn btn-xs btn-primary">
+                                                        PAY
+                                                    </button>
+                                                </form>
+                                            <?php else : ?>
+                                                <button type="button" class="btn btn-xs btn-success">
+                                                    PAID
+                                                </button>
+                                            <?php endif; ?>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
