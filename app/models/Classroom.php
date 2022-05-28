@@ -64,6 +64,20 @@ class Classroom
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getClassroomBill($id)
+    {
+        $stmt = $this->connection->prepare("
+            SELECT b.*
+            FROM bills b
+            JOIN student_classroom_bills scb on b.id = scb.bills_id
+            WHERE scb.classrooms_id = :id
+            GROUP BY b.id
+        ");
+        $stmt->execute(['id' => $id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function create($attributes): void
     {
         $stmt = $this->connection->prepare("

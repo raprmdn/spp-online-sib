@@ -70,7 +70,11 @@ $students = $student->getAll();
                                     <td><?= $value['gender'] ?></td>
                                     <td><?= $value['classroom'] ?: '-' ?></td>
                                     <td><?= $value['tahun_ajaran'] ?: '-' ?></td>
-                                    <td>-</td>
+                                    <td>
+                                        <a href="./dashboard.php?page=student-detail&id=<?= $value['id'] ?>" class="btn btn-xs btn-warning">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>

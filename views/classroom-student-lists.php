@@ -101,7 +101,7 @@ if (!$classroom){
                                     <td><?= $value['address'] ?></td>
                                     <td><?= $value['phone_number'] ?></td>
                                     <td>
-                                        <a href="" class="btn btn-xs btn-warning">
+                                        <a href="./dashboard.php?page=student-detail&id=<?= $value['id'] ?>" class="btn btn-xs btn-warning">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>

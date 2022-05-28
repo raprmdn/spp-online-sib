@@ -25,7 +25,7 @@ $menus = [
         'is_active' => in_array($requestPage, [
                 'user-lists', 'student-lists', 'classroom-lists', 'add-student-classroom',
             'bill-lists', 'add-student-bill', 'bill-student-lists', 'add-classroom', 'edit-classroom',
-            'classroom-student-lists', 'add-bill', 'edit-bill', 'bill-detail']),
+            'classroom-student-lists', 'add-bill', 'edit-bill', 'bill-detail', 'student-detail']),
         'role' => 'admin',
         'children' => [
             [
@@ -39,7 +39,7 @@ $menus = [
                 'title' => 'List Siswa',
                 'icon' => 'far fa-circle nav-icon',
                 'url' => './dashboard.php?page=student-lists',
-                'is_active' => isActive('student-lists'),
+                'is_active' => in_array($requestPage, ['student-lists', 'student-detail']),
                 'role' => 'admin',
             ],
             [
