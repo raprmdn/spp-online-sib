@@ -44,7 +44,7 @@ $studentBills = $studentObj->getStudentBills($authStudentId);
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="/assets/backend/dist/img/user4-128x128.jpg" alt="User profile picture">
+                                <img class="profile-user-img img-fluid img-circle" src="./assets/backend/dist/img/user4-128x128.jpg" alt="User profile picture">
                             </div>
                             <h3 class="profile-username text-center"><?= $student['fullname'] ?></h3>
                             <p class="text-muted text-center"><?= $student['classroom'] ?> - <?= $student['classroom_name'] ?></p>
